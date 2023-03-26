@@ -1,0 +1,181 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 100vw;
+	background-color: #040c22;
+	color: #fdc100;
+	font-family: 'Bitter', serif;
+	font-size: 28px;
+}
+header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+	height: 25%;
+}
+#logo{
+	text-align: center;
+}
+p{
+	text-align: center;
+	letter-spacing: 2px;
+}
+main{
+	height: 100%;
+}
+article{
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.board{
+	height: 100%;
+	max-width: 50%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+	justify-content: flex-start;
+    align-items: center;
+	position: relative;
+  	z-index: 1;
+}
+.row{
+	height: 140px;
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.card{
+	width: 125px;
+	height: 125px;
+	display: inline-block;
+	background-image: url("img/backgroundb.png");
+	border: 4px solid #fdc100;
+	border-radius: 4px;
+	cursor: pointer;
+	filter: brightness(70%);
+	transition: all .3s ease-in-out;
+	margin: 4px;
+}
+.card:hover	{
+	border: 4px solid #2e4595;
+	filter: brightness(100%);
+}
+/*karta aktywna*/
+.cardA{
+	width: 125px;
+	height: 125px;
+	display: inline-block;
+	background-image: url("img/backgroundb.png");
+	border: 4px solid #2e4595;
+	border-radius: 4px;
+	cursor: default;
+	filter: brightness(100%);
+	transition: all .3s ease-in-out;
+	margin: 4px;
+}
+.score{
+	margin-top: 2vh;
+	letter-spacing: 2px;
+}
+
+
+a:link    { color: #040c22; text-decoration: none;}
+a:visited { color: #040c22;}
+a:active  { color: #040c22;}
+a:hover   { color: #000000;}
+.board::selection {	background: #fdc100;} /*ukrycie zaznaczenia pola tekstowego na planszy*/
+
+.choicepl{
+	display: flex;
+	flex-direction: row;
+}
+
+#ash{
+	background-color:#E6E6FA;
+	width: 350px;
+	height: 350px;
+	background-image: url("img/ash_a.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	border: 4px solid #fdc100;
+	border-radius: 4px;
+	filter: brightness(70%);
+	margin: 4px;
+	cursor: pointer;
+}
+#ash:hover	{
+	background-color:#E6E6FA;
+	border: 4px solid #2e4595;
+	filter: brightness(100%);
+	background-image: url("img/ash_b.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
+#gary{
+	background-color:#E6E6FA;
+	width: 350px;
+	height: 350px;
+	background-image: url("img/gary_a.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	border: 4px solid #fdc100;
+	border-radius: 4px;
+	filter: brightness(70%);
+	margin: 4px;
+	cursor: pointer;
+}
+#gary:hover	{
+	background-color:#E6E6FA;
+	border: 4px solid #2e4595;
+	filter: brightness(100%);
+	background-image: url("img/gary_b.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+.left{
+	width: 25%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+  	z-index: 0;
+}
+.right{
+	width: 25%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+  	z-index: 0;
+}
+
+.sidePlayerAsh{
+    height: 50vh;
+    width: 45vh;
+	background-image: url("img/ash_a.png");
+    background-size: 100%;
+	background-repeat: no-repeat;
+	filter: brightness(20%);
+}
+.sidePlayerGary{
+    height: 50vh;
+    width: 45vh;
+	background-image: url("img/gary_a.png");
+    background-size: 100%;
+	background-repeat: no-repeat;
+	filter: brightness(20%);
+}
+
+h1{
+	text-align: center;
+}

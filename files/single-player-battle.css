@@ -1,0 +1,96 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+body{
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 100vw;
+	background-color: #040c22;
+	color: #fdc100;
+	font-family: 'Bitter', serif;
+	font-size: 28px;
+}
+header{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+	height: 25%;
+}
+#logo{
+	text-align: center;
+}
+p{
+	text-align: center;
+	letter-spacing: 2px;
+}
+main{
+	height: 100%;
+}
+article{
+	height: 100%;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.board{
+	height: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 2vh;
+	display: flex;
+    flex-direction: column;
+    justify-content: center;
+	justify-content: flex-start;
+    align-items: center;
+}
+.row{
+	height: 140px;
+	display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.card{
+	width: 125px;
+	height: 125px;
+	display: inline-block;
+	background-image: url("img/backgroundb.png");
+	border: 4px solid #fdc100;
+	border-radius: 4px;
+	cursor: pointer;
+	filter: brightness(70%);
+	transition: all .3s ease-in-out;
+	margin: 4px;
+}
+.card:hover	{
+	border: 4px solid #2e4595;
+	filter: brightness(100%);
+}
+/*karta aktywna*/
+.cardA{
+	width: 125px;
+	height: 125px;
+	display: inline-block;
+	background-image: url("img/backgroundb.png");
+	border: 4px solid #2e4595;
+	border-radius: 4px;
+	cursor: default;
+	filter: brightness(100%);
+	transition: all .3s ease-in-out;
+	margin: 4px;
+}
+.score{
+	margin-top: 2vh;
+	letter-spacing: 2px;
+}
+h1{
+	text-align: center;
+}
+
+a:link    { color: #040c22; text-decoration: none;}
+a:visited { color: #040c22;}
+a:active  { color: #040c22;}
+a:hover   { color: #000000;}
+.board::selection {	background: #fdc100;} /*ukrycie zaznaczenia pola tekstowego na planszy*/
