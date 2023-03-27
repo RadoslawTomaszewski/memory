@@ -148,7 +148,7 @@ function hide2Cards(nr1, nr2){
 	if(pairsLeft==0){
 
 		if(ashScore > garyScore) {
-			document.querySelector('.board').innerHTML = '<img src="/img/ash-win.gif"><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
+			document.querySelector('.board').innerHTML = '<img src="img/ash-win.gif"><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
 			document.querySelector('.left').innerHTML = '';
 			document.querySelector('.right').innerHTML = '';
 			winAsh.play();
