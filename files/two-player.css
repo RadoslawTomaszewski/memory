@@ -14,7 +14,7 @@ body{
 	font-family: 'Bitter', serif;
 	font-size: 28px;
 }
-header{
+#top{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,7 +23,7 @@ header{
 #logo{
 	text-align: center;
 }
-p{
+span{
 	text-align: center;
 	letter-spacing: 2px;
 }

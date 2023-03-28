@@ -15,14 +15,25 @@ let lock = false;			//zmienna: bool		zabezpieczenie zapobiegajace odslonieciu wi
 let pairsLeft = 8;			//zmienna: liczba	przechowje liczbe pozostalych na planszy par
 let card;					//zmienna: obiekt	przechowuje element karty (getElementById)
 let opacityValue;			//zmienna: obiekt	przechowuje wartosc css opacity dla danego elementu karty (jesli wartosc wynosi 0, to karta zniknela z planszy)
+let gameMode = "eevee";		//zmienna: string	przechowuje informacje o trybie gry z session storage
 
 document.getElementById("ash").addEventListener("click", () => generateBoard("ash"));
 document.getElementById("gary").addEventListener("click", () => generateBoard("gary"));
 
-cardsImages = ["1.png", "1.png", "2.png", "2.png", "3.png", "3.png", "4.png", "4.png", "5.png", "5.png", "6.png", "6.png", "7.png", "7.png", "8.png", "8.png"];
-cardNr = new Array(16);
+gameMode = sessionStorage.getItem('gameMode');
 
-shuffle(cardsImages);
+if (gameMode === "eevee"){
+	document.body.style.backgroundColor = '#fdc100';
+	document.body.style.color = '#040c22';
+	cardsImages = ["1.png", "1.png", "2.png", "2.png", "3.png", "3.png", "4.png", "4.png", "5.png", "5.png", "6.png", "6.png", "7.png", "7.png", "8.png", "8.png"];
+}
+if (gameMode=== "battle"){
+	document.body.style.backgroundColor = '#040c22';
+	document.body.style.color = '#fdc100';
+	cardsImages = ["1b.png", "1b.png", "2b.png", "2b.png", "3b.png", "3b.png", "4b.png", "4b.png", "5b.png", "5b.png", "6b.png", "6b.png", "7b.png", "7b.png", "8b.png", "8b.png"];
+}
+
+cardNr = new Array(16);
 
 //funkcja generujaca poczatek rozgrywki
 const generateBoard = (player) =>{
@@ -41,17 +52,18 @@ const generateBoard = (player) =>{
 }
 //funkcja rejestrujaca listenery
 const registerListeners = () =>{
-	cardsImages.forEach((_, i) => 
-		{cardNr[i] = document.getElementById("c" + i);});
-	cardNr.forEach((card, index) => 
-		{card.addEventListener("click", () => {revealCard(index);});});
+	cardNr = document.querySelectorAll('.card');
+	cardNr.forEach((card, index) => {
+		if (gameMode === 'battle') card.style.backgroundImage = 'url(img/backgroundb.png)';
+		card.addEventListener("click", () => {revealCard(index);});
+	});
 
 	document.querySelector('.left').innerHTML = '<div class="sidePlayerAsh"></div><div class="scoreAsh">Ash score: 0</div>';
 	document.querySelector('.right').innerHTML = '<div class="sidePlayerGary"></div><div class="scoreGary">Gary score: 0</div>';
 }
 
 
-function shuffle(array) {
+const shuffle = (array) => {
 
 	let currentIndex = array.length
 	let randomIndex;
@@ -62,18 +74,20 @@ function shuffle(array) {
 		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
 
 	}
-  }
+}
+
+shuffle(cardsImages);
 
 //funkcja odslaniajaca karte
-function revealCard(nr) {
+const revealCard = (nr) => {
 	card = document.getElementById("c" + nr);
 	opacityValue = window.getComputedStyle(card).getPropertyValue('opacity');
 
 	if(opacityValue !=0 && lock == false){
 		lock = true;
-		card.style.backgroundImage = "url(img/" + cardsImages[nr] + ")";
+		if(gameMode === "eevee") card.style.backgroundImage = "url(img/" + cardsImages[nr] + ")";
+		if(gameMode === "battle") card.style.backgroundImage = "url(img/" + cardsImages[nr] + ")";
 		if(nr!=visibleNr) card.classList.toggle('cardA');
-
 		//Pierwsza karta w turze
 		if(oneVisible === false){
 			oneVisible = true;
@@ -81,7 +95,6 @@ function revealCard(nr) {
 			lock = false;
 			return;
 		}
-
 		//Druga karta w turze
 		if(nr != visibleNr){
 			//identyczne karty w parze
@@ -97,7 +110,7 @@ function revealCard(nr) {
 }
 
 //funkcja zaslaniajaca dwie karty wybrane w turze
-function restore2Cards(firstCard, secondCard) {
+const restore2Cards = (firstCard, secondCard) => {
 	restoreCard(firstCard);
 	restoreCard(secondCard);
 	lock = false;
@@ -106,15 +119,16 @@ function restore2Cards(firstCard, secondCard) {
 }
 
 //funkcja zaslaniajaca jedna karte
-function restoreCard(cardNr){
+const restoreCard = (cardNr) =>{
 	let cardToRestore = document.querySelector('#c' + cardNr);
-	cardToRestore.style.backgroundImage = 'url(img/background.png)';
+	if(gameMode === "eevee") cardToRestore.style.backgroundImage = 'url(img/background.png)';
+	if(gameMode === "battle") cardToRestore.style.backgroundImage = 'url(img/backgroundb.png)';
 	cardToRestore.classList.add('card');
 	cardToRestore.classList.remove('cardA');
 }
 
 //funkcja usuwajaca z planszy pare identycznych kart
-function hide2Cards(nr1, nr2){
+const hide2Cards = (nr1, nr2) =>{
 	document.querySelector('#c' + nr1).style.opacity = '0';
 	document.querySelector('#c' + nr2).style.opacity = '0';
 	pairsLeft--;
@@ -139,8 +153,7 @@ function hide2Cards(nr1, nr2){
 	}
 	lock = false;
 }
-
-function changeWhoseTurn(){
+const changeWhoseTurn = () =>{
 	tmp = whoseTurn;
 	if (tmp === "ash") {
 		whoseTurn = "gary";
@@ -154,12 +167,12 @@ function changeWhoseTurn(){
 	}
 }
 
-function addScore(){
+const addScore = () =>{
 	if (whoseTurn === "ash") ashScore++;
 	if (whoseTurn === "gary") garyScore++; 
 }
 
-function updateStats(){
+const updateStats = () =>{
 	document.querySelector('.scoreCounter').innerHTML = 'Turn counter: ' + turnCounter;
 	document.querySelector('.scoreAsh').innerHTML = 'Ash score: ' + ashScore;
 	document.querySelector('.scoreGary').innerHTML = 'Gary score: ' + garyScore;
@@ -167,7 +180,7 @@ function updateStats(){
 	if(whoseTurn === "gary") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/gary_head.png" height="40"/>';
 }
 
-function showResult(winner){
+const showResult = (winner) =>{
 	if (winner === "remis") document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Remis!<br/>Done in ' + turnCounter + ' turns!';
 	if (winner === "ash_win") document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
 	if (winner === "gary_win") document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Gary win!<br/>Done in ' + turnCounter + ' turns!';
