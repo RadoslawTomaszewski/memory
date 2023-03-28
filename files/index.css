@@ -8,22 +8,11 @@ body{
 	height: 100vh;
 	width: 100vw;
 	background-image: url('img/index_background.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
 	color: #040c22;
 	font-family: 'Bitter', serif;
 	font-size: 28px;
-}
-header{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-	height: 20%;
-}
-#logo{
-	text-align: center;
-}
-p{
-	text-align: center;
-	letter-spacing: 2px;
 }
 main{
 	height: 100%;
