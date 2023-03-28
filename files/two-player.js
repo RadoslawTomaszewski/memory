@@ -1,9 +1,7 @@
-const winAsh = new Audio("audio/ash_win.mp3");
-const winGary = new Audio("audio/gary_win.mp3");
+const ash_win = new Audio("audio/ash_win.mp3");
+const gary_win = new Audio("audio/gary_win.mp3");
 const remis = new Audio('audio/remis.mp3');
 const backgroundMusic = new Audio('audio/background.mp3');
-
-
 
 let whoseTurn;				//zmienna: string	zawiera informacje, kto wykonuje wych w danej turze
 let ashScore = 0;			//zmienna: liczba	wynik asha
@@ -37,13 +35,13 @@ function setFirstPlayer(p){
 	}
 }
 
-let cards = ["1.png", "1.png", "2.png", "2.png", "3.png", "3.png", "4.png", "4.png", "5.png", 
+let cardsImages = ["1.png", "1.png", "2.png", "2.png", "3.png", "3.png", "4.png", "4.png", "5.png", 
 "5.png", "6.png", "6.png", "7.png", "7.png", "8.png", "8.png"];
 let c_ = new Array(16);
 
 function registerListeners(){
 
-	for(i=0; i<cards.length; i++){
+	for(i=0; i<cardsImages.length; i++){
 		c_[i] = document.getElementById("c" + i);
 	}
 	c_[0].addEventListener("click", function() {revealCard(0);});
@@ -70,7 +68,7 @@ function registerListeners(){
 	document.querySelector('.right').innerHTML = '<div class="sidePlayerGary"></div><div class="scoreGary">Gary score: 0</div>';
 }
 
-shuffle(cards);
+shuffle(cardsImages);
 
 function shuffle(array) {
 
@@ -92,11 +90,11 @@ function revealCard(nr) {
 
 	if(opacityValue !=0 && lock == false){
 		lock = true;
-		card.style.backgroundImage = "url(img/" + cards[nr] + ")";
+		card.style.backgroundImage = "url(img/" + cardsImages[nr] + ")";
 		if(nr!=visibleNr) card.classList.toggle('cardA');
 
 		//Pierwsza karta w turze
-		if(oneVisible == false){
+		if(oneVisible === false){
 			oneVisible = true;
 			visibleNr = nr;
 			lock = false;
@@ -106,7 +104,7 @@ function revealCard(nr) {
 		//Druga karta w turze
 		if(nr != visibleNr){
 			//identyczne karty w parze
-			if(cards[nr] == cards[visibleNr]) setTimeout(function() { hide2Cards(nr, visibleNr)}, 750); 
+			if(cardsImages[nr] === cardsImages[visibleNr]) setTimeout(function() { hide2Cards(nr, visibleNr)}, 750); 
 			//rozne kary w parze
 			else setTimeout(function() { restore2Cards(nr, visibleNr)}, 1000);
 			turnCounter++;
@@ -137,35 +135,22 @@ function restore2Cards(nr1, nr2) {
 
 //funkcja usuwajaca z planszy pare identycznych kart
 function hide2Cards(nr1, nr2){
-
 	document.querySelector('#c' + nr1).style.opacity = '0';
 	document.querySelector('#c' + nr2).style.opacity = '0';
-
 	pairsLeft--;
-
 	addScore();
 	updateStats();
-	if(pairsLeft==0){
-
+	if(pairsLeft === 0){
 		if(ashScore > garyScore) {
-			document.querySelector('.board').innerHTML = '<img src="img/ash-win.gif"><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
-			document.querySelector('.left').innerHTML = '';
-			document.querySelector('.right').innerHTML = '';
-			winAsh.play();
+			showResult("ash_win");
 			return;
 		}
 		if(ashScore === garyScore) {
-			document.querySelector('.board').innerHTML = '<img src="img/remis.gif"><h1>Remis!<br/>Done in ' + turnCounter + ' turns!';
-			document.querySelector('.left').innerHTML = '';
-			document.querySelector('.right').innerHTML = '';
-			remis.play();
+			showResult("gary_win");
 			return;
 		}
 		if(ashScore < garyScore) {
-			document.querySelector('.board').innerHTML = '<img src="img/gary-win.gif"><h1>Gary win!<br/>Done in ' + turnCounter + ' turns!';
-			document.querySelector('.left').innerHTML = '';
-			document.querySelector('.right').innerHTML = '';
-			winGary.play();
+			showResult("remis");
 			return;
 		}
 		lose.play();
@@ -174,13 +159,13 @@ function hide2Cards(nr1, nr2){
 }
 
 function changeWhoseTurn(){
-	p = whoseTurn;
-	if (p === "ash") {
+	tmp = whoseTurn;
+	if (tmp === "ash") {
 		whoseTurn = "gary";
 		document.querySelector('.sidePlayerAsh').style.filter = 'brightness(20%)';
 		document.querySelector('.sidePlayerGary').style.filter = 'brightness(100%)';
 	}
-	if (p === "gary"){
+	if (tmp === "gary"){
 		whoseTurn = "ash"; 
 		document.querySelector('.sidePlayerAsh').style.filter = 'brightness(100%)';
 		document.querySelector('.sidePlayerGary').style.filter = 'brightness(20%)';
@@ -196,8 +181,13 @@ function updateStats(){
 	document.querySelector('.scoreCounter').innerHTML = 'Turn counter: ' + turnCounter;
 	document.querySelector('.scoreAsh').innerHTML = 'Ash score: ' + ashScore;
 	document.querySelector('.scoreGary').innerHTML = 'Gary score: ' + garyScore;
-	if(whoseTurn === "ash") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/ash_head.png" height="40">';
-	if(whoseTurn === "gary") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/gary_head.png" height="40">';
+	if(whoseTurn === "ash") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/ash_head.png" height="40"/>';
+	if(whoseTurn === "gary") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/gary_head.png" height="40"/>';
+}
 
-
+function showResult(winner){
+	document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
+	document.querySelector('.left').innerHTML = '';
+	document.querySelector('.right').innerHTML = '';
+	winner.play();
 }
