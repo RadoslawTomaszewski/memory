@@ -18,44 +18,40 @@
 </head>
 
 <body>
-	<main>
-		<article>
-			<div class="board">
-				<div class="choseLeft">
-					<img class="gameLogo" src="files/img/memory_eevee.png"/>
-					<a href="files/single-player.html" onclick="setGameMode('eevee')"><div class="choseGameEevee">
-						<div>Single-Player</div>
-						<img src="files/img/ash_head.png" height="40px"/>
-					</div></a>
-					<a href="files/two-player.html" onclick="setGameMode('eevee')"><div class="choseGameEevee">
-						<div>Two-Players</div>
-						<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/gary_head.png" height="45px"/>
-					</div></a>
-					<div class="choseGameEevee">
-						<div>vs Computer</div>
-						<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/ai.png" height="45px"/>
-					</div>
-					<img class="downPokemon" src="files/img/eevee.png" height="100px">
-				</div>
-				<div class="choseRight">
-					<img class="gameLogo" src="files/img/memory_battle.png">
-					<a href="files/single-player-battle.html" onclick="setGameMode('battle')"><div class="choseGameBattle">
-						<div>Single-Player</div>
-						<img src="files/img/ash_head.png" height="40px">
-					</div></a>
-					<a href="files/two-player.html" onclick="setGameMode('battle')"><div class="choseGameBattle">
-						<div>Two-Players</div>
-						<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/gary_head.png" height="45px"/>
-					</div></a>
-					<div class="choseGameBattle">
-						<div>vs Computer</div>
-						<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/ai.png" height="45px"/>
-					</div>
-					<img class="downPokemon" src="files/img/mewtwo.png" height="100px">
-				</div>
+	<div class="board">
+		<div class="choseLeft">
+			<img class="gameLogo" src="files/img/memory_eevee.png"/>
+			<a href="files/single-player.html" onclick="setGameMode('eevee')"><div class="choseGameEevee">
+				<div>Single-Player</div>
+				<img src="files/img/ash_head.png" height="40px"/>
+			</div></a>
+			<a href="files/two-player.html" onclick="setGameMode('eevee')"><div class="choseGameEevee">
+				<div>Two-Players</div>
+				<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/gary_head.png" height="45px"/>
+			</div></a>
+			<div class="choseGameEevee">
+				<div>vs Computer</div>
+				<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/ai.png" height="45px"/>
 			</div>
-		</article>
-	</main>	
+			<img class="downPokemon" src="files/img/eevee.png" height="100px">
+		</div>
+		<div class="choseRight">
+			<img class="gameLogo" src="files/img/memory_battle.png">
+			<a href="files/single-player-battle.html" onclick="setGameMode('battle')"><div class="choseGameBattle">
+				<div>Single-Player</div>
+				<img src="files/img/ash_head.png" height="40px">
+			</div></a>
+			<a href="files/two-player.html" onclick="setGameMode('battle')"><div class="choseGameBattle">
+				<div>Two-Players</div>
+				<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/gary_head.png" height="45px"/>
+			</div></a>
+			<div class="choseGameBattle">
+				<div>vs Computer</div>
+				<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/ai.png" height="45px"/>
+			</div>
+			<img class="downPokemon" src="files/img/mewtwo.png" height="100px">
+		</div>
+	</div>
 	<script>
 		const setGameMode = (mode) =>{
 			sessionStorage.setItem('gameMode', mode);
