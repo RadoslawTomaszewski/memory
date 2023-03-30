@@ -4,13 +4,14 @@ const generateBoard = (player) =>{
 	whoseTurn = player;
 	document.querySelector('.board').innerHTML = '<br/><div class="row"><div class="card" id="c0"></div><div class="card" id="c1"></div><div class="card" id="c2"></div><div class="card" id="c3"></div></div><div class="row"><div class="card" id="c4"></div><div class="card" id="c5"></div><div class="card" id="c6"></div><div class="card" id="c7"></div></div><div class="row"><div class="card" id="c8"></div><div class="card" id="c9"></div><div class="card" id="c10"></div><div class="card" id="c11"></div></div><div class="row"><div class="card" id="c12"></div><div class="card" id="c13"></div><div class="card" id="c14"></div><div class="card" id="c15"></div></div></div><div class="scoreCounter">Turn counter:  '+ turnCounter +'</div>'+ '</div><div class="scoreWhoseTurn">Whose Turn:  '+ whoseTurn +'</div>';
 	registerListeners();
+	let scoreWhoseTurn = document.querySelector('.scoreWhoseTurn');
 	if(whoseTurn === "ash"){
 		document.querySelector('.sidePlayerAsh').style.filter = 'brightness(100%)';
-		document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/ash_head.png" height="40"/>';
+		scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/ash_head.png" height="40"/>';
 	}
 	if(whoseTurn === "gary"){
 		document.querySelector('.sidePlayerGary').style.filter = 'brightness(100%)';
-		document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/gary_head.png" height="40"/>';
+		scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/gary_head.png" height="40"/>';
 	}
 }
 //funkcja rejestrujaca listenery
@@ -111,15 +112,17 @@ const hide2Cards = (firstCard, secondCard) =>{
 //funkcja zmieniajaca gracza w turze
 const changeWhoseTurn = () =>{
 	tmp = whoseTurn;
+	let ash = document.querySelector('.sidePlayerAsh');
+	let gary = document.querySelector('.sidePlayerGary');
 	if (tmp === "ash") {
 		whoseTurn = "gary";
-		document.querySelector('.sidePlayerAsh').style.filter = 'brightness(20%)';
-		document.querySelector('.sidePlayerGary').style.filter = 'brightness(100%)';
+		ash.style.filter = 'brightness(20%)';
+		gary.style.filter = 'brightness(100%)';
 	}
 	if (tmp === "gary"){
 		whoseTurn = "ash"; 
-		document.querySelector('.sidePlayerAsh').style.filter = 'brightness(100%)';
-		document.querySelector('.sidePlayerGary').style.filter = 'brightness(20%)';
+		ash.style.filter = 'brightness(100%)';
+		gary.style.filter = 'brightness(20%)';
 	}
 }
 //funkcja dopisujaca punkty
@@ -137,11 +140,35 @@ const updateStats = () =>{
 }
 //wywolanie zakonczenia gry
 const showResult = (winner) =>{
-	if (winner === "remis") document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Remis!<br/>Done in ' + turnCounter + ' turns!';
-	if (winner === "ash_win") document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
-	if (winner === "gary_win") document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Gary win!<br/>Done in ' + turnCounter + ' turns!';
 	document.querySelector('.left').innerHTML = '';
 	document.querySelector('.right').innerHTML = '';
+	if (winner === "remis") { 
+		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Remis!<br/>Done in ' + turnCounter + ' turns!'; 
+		return;
+	}
+	if (winner === "ash_win"){
+		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
+		return;
+	} 
+	if (winner === "gary_win"){
+		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Gary win!<br/>Done in ' + turnCounter + ' turns!';
+		return;
+	} 
+}
+//ustawienie widoku w zaleznosci od trybu gry
+const useModeProperities = () =>{
+	if (gameMode === "eevee"){
+		document.body.style.backgroundColor = '#fdc100';
+		document.body.style.color = '#040c22';
+		cardsImages = ["1.png", "1.png", "2.png", "2.png", "3.png", "3.png", "4.png", "4.png", "5.png", "5.png", "6.png", "6.png", "7.png", "7.png", "8.png", "8.png"];
+		document.getElementById('nameGame').innerHTML = 'EEVOLUTIONS MEMORY GAME';
+	}
+	if (gameMode=== "battle"){
+		document.body.style.backgroundColor = '#040c22';
+		document.body.style.color = '#fdc100';
+		cardsImages = ["1b.png", "1b.png", "2b.png", "2b.png", "3b.png", "3b.png", "4b.png", "4b.png", "5b.png", "5b.png", "6b.png", "6b.png", "7b.png", "7b.png", "8b.png", "8b.png"];
+		document.getElementById('nameGame').innerHTML = 'BATTLE MEMORY GAME';
+	}
 }
 //dzwieki mp3
 const ashWin = new Audio("audio/ash_win.mp3");
@@ -163,23 +190,14 @@ let card;					//zmienna: obiekt	przechowuje element karty (getElementById)
 let opacityValue;			//zmienna: obiekt	przechowuje wartosc css opacity dla danego elementu karty (jesli wartosc wynosi 0, to karta zniknela z planszy)
 let gameMode = "eevee";		//zmienna: string	przechowuje informacje o trybie gry z session storage
 
-document.getElementById("ash").addEventListener("click", () => generateBoard("ash"));
-document.getElementById("gary").addEventListener("click", () => generateBoard("gary"));
 
+//main
 gameMode = sessionStorage.getItem('gameMode');
 
-if (gameMode === "eevee"){
-	document.body.style.backgroundColor = '#fdc100';
-	document.body.style.color = '#040c22';
-	cardsImages = ["1.png", "1.png", "2.png", "2.png", "3.png", "3.png", "4.png", "4.png", "5.png", "5.png", "6.png", "6.png", "7.png", "7.png", "8.png", "8.png"];
-	document.getElementById('nameGame').innerHTML = 'EEVOLUTIONS MEMORY GAME';
-}
-if (gameMode=== "battle"){
-	document.body.style.backgroundColor = '#040c22';
-	document.body.style.color = '#fdc100';
-	cardsImages = ["1b.png", "1b.png", "2b.png", "2b.png", "3b.png", "3b.png", "4b.png", "4b.png", "5b.png", "5b.png", "6b.png", "6b.png", "7b.png", "7b.png", "8b.png", "8b.png"];
-	document.getElementById('nameGame').innerHTML = 'BATTLE MEMORY GAME';
-}
+useModeProperities();
+
+document.getElementById("ash").addEventListener("click", () => generateBoard("ash"));
+document.getElementById("gary").addEventListener("click", () => generateBoard("gary"));
 
 cardNr = new Array(16);
 
