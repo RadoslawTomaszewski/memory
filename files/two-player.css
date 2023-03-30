@@ -132,6 +132,29 @@ a:hover   { color: #000000;}
 	background-size: cover;
 	background-repeat: no-repeat;
 }
+
+#ai{
+	background-color:#E6E6FA;
+	width: 350px;
+	height: 350px;
+	background-image: url("img/ai_a.png");
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	border: 4px solid #fdc100;
+	border-radius: 4px;
+	filter: brightness(70%);
+	margin: 4px;
+	cursor: pointer;
+}
+#ai:hover	{
+	background-color:#E6E6FA;
+	filter: brightness(100%);
+	background-image: url("img/ai_b.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+}
+
 .left{
 	height: 100%;
 	width: 25%;
@@ -163,6 +186,14 @@ a:hover   { color: #000000;}
     height: 50vh;
     width: 100%;
 	background-image: url("img/gary_a.png");
+    background-size: 100%;
+	background-repeat: no-repeat;
+	filter: brightness(20%);
+}
+.sidePlayerAi{
+    height: 50vh;
+    width: 100%;
+	background-image: url("img/ai_a.png");
     background-size: 100%;
 	background-repeat: no-repeat;
 	filter: brightness(20%);

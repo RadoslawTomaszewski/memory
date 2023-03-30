@@ -1,3 +1,30 @@
+//funkcja generujaca ruch ai
+const aiTurn = () =>{
+	let firstNr = -1;
+	let secondNr = -1;
+	console.log(usedNumbers.includes(firstNr));
+	while(!usedNumbers.includes(firstNr)){
+		firstNr = Math.floor(Math.random() * 16);
+	}
+	revealCard(firstNr);
+	console.log(usedNumbers.includes(firstNr));
+	while(usedNumbers.includes(secondNr) || secondNr != firstNr){
+		secondNr = Math.floor(Math.random() * 16);
+	}
+	revealCard(secondNr);
+
+}
+
+
+
+
+
+
+
+
+
+
+
 //funkcja generujaca poczatek rozgrywki
 const generateBoard = (player) =>{
 	backgroundMusic.play();
@@ -9,9 +36,9 @@ const generateBoard = (player) =>{
 		document.querySelector('.sidePlayerAsh').style.filter = 'brightness(100%)';
 		scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/ash_head.png" height="40"/>';
 	}
-	if(whoseTurn === "gary"){
-		document.querySelector('.sidePlayerGary').style.filter = 'brightness(100%)';
-		scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/gary_head.png" height="40"/>';
+	if(whoseTurn === "ai"){
+		document.querySelector('.sidePlayerAi').style.filter = 'brightness(100%)';
+		scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/ai_head.png" height="40"/>';
 	}
 }
 //funkcja rejestrujaca listenery
@@ -23,7 +50,7 @@ const registerListeners = () =>{
 	});
 
 	document.querySelector('.left').innerHTML = '<div class="sidePlayerAsh"></div><div class="scoreAsh">Ash score: 0</div>';
-	document.querySelector('.right').innerHTML = '<div class="sidePlayerGary"></div><div class="scoreGary">Gary score: 0</div>';
+	document.querySelector('.right').innerHTML = '<div class="sidePlayerAi"></div><div class="scoreAi">Mewtwo score: 0</div>';
 }
 //funkcja losujaca uklad kart na planszy
 const shuffle = (array) => {
@@ -74,6 +101,7 @@ const restore2Cards = (firstCard, secondCard) => {
 	lock = false;
 	changeWhoseTurn();
 	updateStats();
+	if (whoseTurn === "ai") aiTurn();
 }
 //funkcja zaslaniajaca jedna karte
 const restoreCard = (cardNr) =>{
@@ -85,25 +113,29 @@ const restoreCard = (cardNr) =>{
 }
 //funkcja usuwajaca z planszy pare identycznych kart
 const hide2Cards = (firstCard, secondCard) =>{
+	usedNumbers.push(firstCard);
+	usedNumbers.push(secondCard);
+	console.log(usedNumbers);
 	document.querySelector('#c' + firstCard).style.opacity = '0';
 	document.querySelector('#c' + secondCard).style.opacity = '0';
 	pairsLeft--;
 	addScore();
 	updateStats();
+	if (whoseTurn === "ai") aiTurn();
 	if(pairsLeft === 0){
-		if(ashScore > garyScore) {
+		if(ashScore > aiScore) {
 			showResult("ash_win");
 			ashWin.play();
 			return;
 		}
-		if(ashScore === garyScore) {
+		if(ashScore === aiScore) {
 			showResult("remis");
 			remis.play();
 			return;
 		}
-		if(ashScore < garyScore) {
-			showResult("gary_win");
-			garyWin.play();
+		if(ashScore < aiScore) {
+			showResult("ai_win");
+			aiWin.play();
 			return;
 		}
 	}
@@ -113,16 +145,17 @@ const hide2Cards = (firstCard, secondCard) =>{
 const changeWhoseTurn = () =>{
 	tmp = whoseTurn;
 	let ash = document.querySelector('.sidePlayerAsh');
-	let gary = document.querySelector('.sidePlayerGary');
+	let ai = document.querySelector('.sidePlayerAi');
 	if (tmp === "ash") {
-		whoseTurn = "gary";
+		whoseTurn = "ai";
 		ash.style.filter = 'brightness(20%)';
-		gary.style.filter = 'brightness(100%)';
+		ai.style.filter = 'brightness(100%)';
 		return;
 	}
 	whoseTurn = "ash"; 
 	ash.style.filter = 'brightness(100%)';
-	gary.style.filter = 'brightness(20%)';
+	ai.style.filter = 'brightness(20%)';
+
 }
 //funkcja dopisujaca punkty
 const addScore = () =>{
@@ -130,15 +163,15 @@ const addScore = () =>{
 		ashScore++;
 		return;
 	}
-	garyScore++; 
+	aiScore++; 
 }
 //funkcja aktualizujaca statystyki
 const updateStats = () =>{
 	document.querySelector('.scoreCounter').innerHTML = 'Turn counter: ' + turnCounter;
 	document.querySelector('.scoreAsh').innerHTML = 'Ash score: ' + ashScore;
-	document.querySelector('.scoreGary').innerHTML = 'Gary score: ' + garyScore;
+	document.querySelector('.scoreAi').innerHTML = 'Mewtwo score: ' + aiScore;
 	if(whoseTurn === "ash") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/ash_head.png" height="40"/>';
-	if(whoseTurn === "gary") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/gary_head.png" height="40"/>';
+	if(whoseTurn === "ai") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/ai_head.png" height="40"/>';
 }
 //wywolanie zakonczenia gry
 const showResult = (winner) =>{
@@ -152,8 +185,8 @@ const showResult = (winner) =>{
 		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
 		return;
 	} 
-	if (winner === "gary_win"){
-		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Gary win!<br/>Done in ' + turnCounter + ' turns!';
+	if (winner === "ai_win"){
+		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Mewtwo win!<br/>Done in ' + turnCounter + ' turns!';
 		return;
 	} 
 }
@@ -174,13 +207,13 @@ const useModeProperities = () =>{
 }
 //dzwieki mp3
 const ashWin = new Audio("audio/ash_win.mp3");
-const garyWin = new Audio("audio/gary_win.mp3");
+const aiWin = new Audio("audio/lose_battle.mp3");
 const remis = new Audio('audio/remis.mp3');
 const backgroundMusic = new Audio('audio/background.mp3');
 
 let whoseTurn;				//zmienna: string	zawiera informacje, kto wykonuje wych w danej turze
 let ashScore = 0;			//zmienna: liczba	wynik asha
-let garyScore = 0;			//zmienna: liczba	wynik garego
+let aiScore = 0;			//zmienna: liczba	wynik garego
 let cardsImages;			//zmienna: tablica	tablica przechowujaca nazwy obrazow kart
 let cardNr;					//zmienna: tablica	tablica przechowujaca elementy kart (getElementById)
 let oneVisible = false;		//zmienna: bool		pozwala ustalic, czy jedna karta juz zostala odslonieta
@@ -191,6 +224,7 @@ let pairsLeft = 8;			//zmienna: liczba	przechowje liczbe pozostalych na planszy 
 let card;					//zmienna: obiekt	przechowuje element karty (getElementById)
 let opacityValue;			//zmienna: obiekt	przechowuje wartosc css opacity dla danego elementu karty (jesli wartosc wynosi 0, to karta zniknela z planszy)
 let gameMode = "eevee";		//zmienna: string	przechowuje informacje o trybie gry z session storage
+let usedNumbers = [];		//zmienna: tablica	tablica przechowujaca numery kart usunietych z planszy
 
 
 //main
@@ -199,7 +233,6 @@ gameMode = sessionStorage.getItem('gameMode');
 useModeProperities();
 
 document.getElementById("ash").addEventListener("click", () => generateBoard("ash"));
-document.getElementById("gary").addEventListener("click", () => generateBoard("gary"));
 
 cardNr = new Array(16);
 

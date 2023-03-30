@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="utf-8">
+	<title>Eevoltion Memory Game</title>
+	<meta name="description" content="Java Script Memory Game inspired by pokemon">
+	<meta name="keywords" content="javascript, game, pokemon, eevee">
+	<meta name="author" content="Radosław Tomaszewski">
+	<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
+
+	<link rel="stylesheet" href="two-player.css">
+	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
+	
+</head>
+<body>
+	<div id="top">
+		<a href="../index.html"><div id="logo"><img src="img/pokemon_logo.png" width="350"/></div></a>
+		<span id="nameGame">MEMORY GAME</span>
+	</div>
+	<div id="container">
+		<div class="left"></div>
+		<div class="board">
+			<p><br/><b>WHO'S FIRST?</b><br/></p>
+			<div class="choicepl">
+				<div id="ash"></div>
+				<div id="ai"></div>
+			</div>
+		</div>
+		<div class="right"></div>
+	</div>
+
+	<script src="two-player-vscomputer.js"></script>
+	
+</body>
+</html>
