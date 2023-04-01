@@ -1,29 +1,22 @@
 //funkcja generujaca ruch ai
 const aiTurn = () =>{
-	let firstNr = -1;
-	let secondNr = -1;
-	console.log(usedNumbers.includes(firstNr));
-	while(!usedNumbers.includes(firstNr)){
+	let firstNr;
+	let secondNr;
+	console.log("wywoloanie aiTurn()");
+
+	do{
 		firstNr = Math.floor(Math.random() * 16);
-	}
-	revealCard(firstNr);
-	console.log(usedNumbers.includes(firstNr));
-	while(usedNumbers.includes(secondNr) || secondNr != firstNr){
+	}while(usedNumbers.includes(firstNr));
+
+	do {
 		secondNr = Math.floor(Math.random() * 16);
-	}
+	  } while (usedNumbers.includes(secondNr) || secondNr === firstNr);
+
+	console.log("first=" + firstNr);
+	console.log("second= " + secondNr);
+	revealCard(firstNr);
 	revealCard(secondNr);
-
 }
-
-
-
-
-
-
-
-
-
-
 
 //funkcja generujaca poczatek rozgrywki
 const generateBoard = (player) =>{
@@ -86,7 +79,9 @@ const revealCard = (nr) => {
 			//identyczne karty w parze
 			if(cardsImages[nr] === cardsImages[visibleNr]) setTimeout(function() { hide2Cards(nr, visibleNr)}, 750); 
 			//rozne kary w parze
-			else setTimeout(function() { restore2Cards(nr, visibleNr)}, 1000);
+			else{
+				setTimeout(function() { restore2Cards(nr, visibleNr)}, 1000);
+			} 
 			turnCounter++;
 			oneVisible = false;
 			return;
@@ -100,8 +95,9 @@ const restore2Cards = (firstCard, secondCard) => {
 	restoreCard(secondCard);
 	lock = false;
 	changeWhoseTurn();
-	updateStats();
+	console.log("Tura: " + whoseTurn);
 	if (whoseTurn === "ai") aiTurn();
+	updateStats();
 }
 //funkcja zaslaniajaca jedna karte
 const restoreCard = (cardNr) =>{
@@ -121,7 +117,6 @@ const hide2Cards = (firstCard, secondCard) =>{
 	pairsLeft--;
 	addScore();
 	updateStats();
-	if (whoseTurn === "ai") aiTurn();
 	if(pairsLeft === 0){
 		if(ashScore > aiScore) {
 			showResult("ash_win");
@@ -140,6 +135,7 @@ const hide2Cards = (firstCard, secondCard) =>{
 		}
 	}
 	lock = false;
+	if (whoseTurn === "ai") aiTurn();
 }
 //funkcja zmieniajaca gracza w turze
 const changeWhoseTurn = () =>{
