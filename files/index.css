@@ -71,7 +71,7 @@ article{
 	cursor: pointer;
 	filter: brightness(70%);
 	transition: all .3s ease-in-out;
-	margin-top: 1%;
+	margin: 2% 0% 0% 0%;
 }
 .choseGameBattle:hover	{
 	filter: brightness(100%);
@@ -89,7 +89,7 @@ article{
 	cursor: pointer;
 	filter: brightness(70%);
 	transition: all .3s ease-in-out;
-	margin-top: 1%;
+	margin: 2% 0% 0% 0%;
 }
 .choseGameEevee:hover	{
 	border: 4px solid #000000;
@@ -106,7 +106,6 @@ a:link    { color: #040c22; text-decoration: none;}
 a:visited { color: #040c22;}
 a:active  { color: #040c22;}
 a:hover   { color: #000000;}
-.board::selection {	background: #fdc100;} /*ukrycie zaznaczenia pola tekstowego na planszy*/
 
 .gameLogo{
 	width: 60%;

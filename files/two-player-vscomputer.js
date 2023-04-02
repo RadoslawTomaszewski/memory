@@ -8,9 +8,22 @@ const aiTurn = () =>{
 	do {
 		secondNr = Math.floor(Math.random() * 16);
 	  } while (usedNumbers.includes(secondNr) || secondNr === firstNr);
+	//aiValidation(firstNr, secondNr);
+
+
 	revealCard(firstNr);
 	revealCard(secondNr);
 }
+
+const aiValidation = (nr1, nr2)=>{
+	
+}
+
+
+
+
+
+
 
 //funkcja generujaca poczatek rozgrywki
 const generateBoard = (player) =>{

@@ -93,17 +93,14 @@ const hide2Cards = (firstCard, secondCard) =>{
 	if(pairsLeft === 0){
 		if(ashScore > garyScore) {
 			showResult("ash_win");
-			ashWin.play();
 			return;
 		}
 		if(ashScore === garyScore) {
 			showResult("remis");
-			remis.play();
 			return;
 		}
 		if(ashScore < garyScore) {
 			showResult("gary_win");
-			garyWin.play();
 			return;
 		}
 	}
@@ -173,12 +170,9 @@ const useModeProperities = () =>{
 	}
 }
 //dzwieki mp3
-const ashWin = new Audio("audio/ash_win.mp3");
-const garyWin = new Audio("audio/gary_win.mp3");
-const remis = new Audio('audio/remis.mp3');
 const backgroundMusic = new Audio('audio/background.mp3');
 
-let whoseTurn;				//zmienna: string	zawiera informacje, kto wykonuje wych w danej turze
+let whoseTurn;				//zmienna: string	zawiera informacje, kto wykonuje ruch w danej turze
 let ashScore = 0;			//zmienna: liczba	wynik asha
 let garyScore = 0;			//zmienna: liczba	wynik garego
 let cardsImages;			//zmienna: tablica	tablica przechowujaca nazwy obrazow kart
