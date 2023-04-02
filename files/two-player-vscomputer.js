@@ -11,9 +11,6 @@ const aiTurn = () =>{
 	do {
 		secondNr = Math.floor(Math.random() * 16);
 	  } while (usedNumbers.includes(secondNr) || secondNr === firstNr);
-
-	console.log("first=" + firstNr);
-	console.log("second= " + secondNr);
 	revealCard(firstNr);
 	revealCard(secondNr);
 }
@@ -96,7 +93,7 @@ const restore2Cards = (firstCard, secondCard) => {
 	lock = false;
 	changeWhoseTurn();
 	console.log("Tura: " + whoseTurn);
-	if (whoseTurn === "ai") aiTurn();
+	if (whoseTurn === "ai") setTimeout(()=>aiTurn(),250);
 	updateStats();
 }
 //funkcja zaslaniajaca jedna karte
@@ -119,23 +116,23 @@ const hide2Cards = (firstCard, secondCard) =>{
 	updateStats();
 	if(pairsLeft === 0){
 		if(ashScore > aiScore) {
-			showResult("ash_win");
+			showResult("vsc_ash_win");
 			ashWin.play();
 			return;
 		}
 		if(ashScore === aiScore) {
-			showResult("remis");
+			showResult("vsc_remis");
 			remis.play();
 			return;
 		}
 		if(ashScore < aiScore) {
-			showResult("ai_win");
+			showResult("vsc_mewtwo_win");
 			aiWin.play();
 			return;
 		}
 	}
 	lock = false;
-	if (whoseTurn === "ai") aiTurn();
+	if (whoseTurn === "ai") setTimeout(()=>aiTurn(),250);
 }
 //funkcja zmieniajaca gracza w turze
 const changeWhoseTurn = () =>{
@@ -173,15 +170,15 @@ const updateStats = () =>{
 const showResult = (winner) =>{
 	document.querySelector('.left').innerHTML = '';
 	document.querySelector('.right').innerHTML = '';
-	if (winner === "remis") { 
+	if (winner === "vsc_remis") { 
 		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Remis!<br/>Done in ' + turnCounter + ' turns!'; 
 		return;
 	}
-	if (winner === "ash_win"){
+	if (winner === "vsc_ash_win"){
 		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Ash win!<br/>Done in ' + turnCounter + ' turns!';
 		return;
 	} 
-	if (winner === "ai_win"){
+	if (winner === "vsc_mewtwo_win"){
 		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Mewtwo win!<br/>Done in ' + turnCounter + ' turns!';
 		return;
 	} 
@@ -201,10 +198,7 @@ const useModeProperities = () =>{
 		document.getElementById('nameGame').innerHTML = 'BATTLE MEMORY GAME';
 	}
 }
-//dzwieki mp3
-const ashWin = new Audio("audio/ash_win.mp3");
-const aiWin = new Audio("audio/lose_battle.mp3");
-const remis = new Audio('audio/remis.mp3');
+// mp3
 const backgroundMusic = new Audio('audio/background.mp3');
 
 let whoseTurn;				//zmienna: string	zawiera informacje, kto wykonuje wych w danej turze

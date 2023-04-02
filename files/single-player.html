@@ -9,54 +9,47 @@
 	<meta name="author" content="Radosław Tomaszewski">
 	<meta http-equiv="X-Ua-Compatible" content="IE=edge,chrome=1">
 
-	<link rel="stylesheet" href="single-player.css">
+	<link rel="stylesheet" href="two-player.css">
 	<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bitter&display=swap" rel="stylesheet">
 	
 </head>
-
 <body>
-	<header>
+	<div id="top">
 		<a href="../index.html"><div id="logo"><img src="img/pokemon_logo.png" width="350"/></div></a>
-		<p>EEVOLUTIONS MEMORY GAME</p>
-	</header>
-	<main>
-		<article>
-			<div class="board">
-				<br/>
-				<div class="row">
-					<div class="card" id="c0"></div>
-					<div class="card" id="c1"></div>
-					<div class="card" id="c2"></div>
-					<div class="card" id="c3"></div>
-				</div>
-
-				<div class="row">
-					<div class="card" id="c4"></div>
-					<div class="card" id="c5"></div>
-					<div class="card" id="c6"></div>
-					<div class="card" id="c7"></div>
-				</div>
-
-				<div class="row">
-					<div class="card" id="c8"></div>
-					<div class="card" id="c9"></div>
-					<div class="card" id="c10"></div>
-					<div class="card" id="c11"></div>
-				</div>
-
-				<div class="row">
-					<div class="card" id="c12"></div>
-					<div class="card" id="c13"></div>
-					<div class="card" id="c14"></div>
-					<div class="card" id="c15"></div>
-				</div>
-				<div class="score">Turn counter: 0</div>
+		<span id="nameGame">MEMORY GAME</span>
+	</div>
+	<div id="containerSingle">
+		<div class="board">
+			<div class="row">
+				<div class="card" id="c0"></div>
+				<div class="card" id="c1"></div>
+				<div class="card" id="c2"></div>
+				<div class="card" id="c3"></div>
 			</div>
-		</article>
-	</main>
+			<div class="row">
+				<div class="card" id="c4"></div>
+				<div class="card" id="c5"></div>
+				<div class="card" id="c6"></div>
+				<div class="card" id="c7"></div>
+			</div>
+			<div class="row">
+				<div class="card" id="c8"></div>
+				<div class="card" id="c9"></div>
+				<div class="card" id="c10"></div>
+				<div class="card" id="c11"></div>
+			</div>
+			<div class="row">
+				<div class="card" id="c12"></div>
+				<div class="card" id="c13"></div>
+				<div class="card" id="c14"></div>
+				<div class="card" id="c15"></div>
+			</div>
+			<div class="scoreCounter">Turn counter: 0</div>
+		</div>
+	</div>
 
 	<script src="single-player.js"></script>
 	
