@@ -201,8 +201,6 @@ useModeProperities();
 document.getElementById("ash").addEventListener("click", () => generateBoard("ash"));
 document.getElementById("gary").addEventListener("click", () => generateBoard("gary"));
 
-cardNr = new Array(16);
-
 shuffle(cardsImages);
 
 

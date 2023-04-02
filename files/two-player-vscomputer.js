@@ -2,12 +2,9 @@
 const aiTurn = () =>{
 	let firstNr;
 	let secondNr;
-	console.log("wywoloanie aiTurn()");
-
 	do{
 		firstNr = Math.floor(Math.random() * 16);
 	}while(usedNumbers.includes(firstNr));
-
 	do {
 		secondNr = Math.floor(Math.random() * 16);
 	  } while (usedNumbers.includes(secondNr) || secondNr === firstNr);
@@ -92,7 +89,6 @@ const restore2Cards = (firstCard, secondCard) => {
 	restoreCard(secondCard);
 	lock = false;
 	changeWhoseTurn();
-	console.log("Tura: " + whoseTurn);
 	if (whoseTurn === "ai") setTimeout(()=>aiTurn(),250);
 	updateStats();
 }
@@ -108,7 +104,6 @@ const restoreCard = (cardNr) =>{
 const hide2Cards = (firstCard, secondCard) =>{
 	usedNumbers.push(firstCard);
 	usedNumbers.push(secondCard);
-	console.log(usedNumbers);
 	document.querySelector('#c' + firstCard).style.opacity = '0';
 	document.querySelector('#c' + secondCard).style.opacity = '0';
 	pairsLeft--;
@@ -223,8 +218,6 @@ gameMode = sessionStorage.getItem('gameMode');
 useModeProperities();
 
 document.getElementById("ash").addEventListener("click", () => generateBoard("ash"));
-
-cardNr = new Array(16);
 
 shuffle(cardsImages);
 

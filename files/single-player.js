@@ -1,14 +1,11 @@
 //funkcja losujaca uklad kart na planszy
 const shuffle = (array) => {
-
 	let currentIndex = array.length
 	let randomIndex;
-
   	while (currentIndex != 0) {
 		randomIndex = Math.floor(Math.random() * currentIndex);
 		currentIndex--;
 		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
-
 	}
 }
 //funkcja odslaniajaca karte
@@ -73,7 +70,6 @@ const hide2Cards = (firstCard, secondCard) =>{
 	}
 	lock = false;
 }
-
 //ustawienie widoku w zaleznosci od trybu gry
 const useModeProperities = () =>{
 	if (gameMode === "eevee"){
@@ -83,7 +79,6 @@ const useModeProperities = () =>{
 		document.getElementById('nameGame').innerHTML = 'EEVOLUTIONS MEMORY GAME';
 		cardNr = document.querySelectorAll('.card');
 		cardNr.forEach((card, index) => {card.addEventListener("click", () => {revealCard(index);});});
-
 	}
 	if (gameMode=== "battle"){
 		document.body.style.backgroundColor = '#040c22';
@@ -97,7 +92,7 @@ const useModeProperities = () =>{
 		});
 	}
 }
-//dzwieki mp3
+//mp3
 const backgroundMusic = new Audio('audio/background.mp3');
 
 let cardsImages;			//zmienna: tablica	tablica przechowujaca nazwy obrazow kart
