@@ -189,7 +189,7 @@ a:hover   { color: #000000;}
 }
 
 .sidePlayerAsh{
-    height: 50vh;
+    height: 60vh;
     width: 100%;
 	background-image: url("img/ash_a.png");
     background-size: 100%;
@@ -198,7 +198,7 @@ a:hover   { color: #000000;}
 	background-position: bottom;
 }
 .sidePlayerGary{
-    height: 50vh;
+    height: 60vh;
     width: 100%;
 	background-image: url("img/gary_a.png");
     background-size: 100%;
@@ -207,7 +207,7 @@ a:hover   { color: #000000;}
 	background-position: bottom;
 }
 .sidePlayerAi{
-    height: 50vh;
+    height: 60vh;
     width: 100%;
 	background-image: url("img/ai_a.png");
     background-size: 100%;
@@ -221,3 +221,4 @@ a:hover   { color: #000000;}
 .scoreGary{
 	margin-top: 2vh;
 }
+
