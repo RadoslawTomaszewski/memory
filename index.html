@@ -29,11 +29,11 @@
 				<div>Two-Players</div>
 				<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/gary_head.png" height="45px"/>
 			</div></a>
-			<a href="files/two-player-vscomputer.html" onclick="setGameMode('eevee')"><div class="choseGameEevee">
+			<a href="files/two-player-vscomputer.html" onclick="setGameMode('eevee'); setAiMode('off')"><div class="choseGameEevee">
 				<div>vs Computer</div>
 				<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/ai_head.png" height="45px"/>
 			</div></a>
-			<a href="files/two-player-vscomputer.html" onclick="setGameMode('eevee')"><div class="choseGameEevee">
+			<a href="files/two-player-vscomputer.html" onclick="setGameMode('eevee'); setAiMode('on')"><div class="choseGameEevee">
 				<div>vs AI</div>
 				<img class="downPokemon" src="files/img/ai_alakazam_shiny.png" height="100px">
 			</div></a>
@@ -49,11 +49,11 @@
 				<div>Two-Players</div>
 				<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/gary_head.png" height="45px"/>
 			</div></a>
-			<a href="files/two-player-vscomputer.html" onclick="setGameMode('battle')"><div class="choseGameBattle">
+			<a href="files/two-player-vscomputer.html" onclick="setGameMode('battle'); setAiMode('off')"><div class="choseGameBattle">
 				<div>vs Computer</div>
 				<img src="files/img/ash_head.png" height="40px"/> vs <img src="files/img/ai_head.png" height="45px"/>
 			</div></a>
-			<a href="files/two-player-vscomputer.html" onclick="setGameMode('battle')"><div class="choseGameBattle">
+			<a href="files/two-player-vscomputer.html" onclick="setGameMode('battle'); setAiMode('on')"><div class="choseGameBattle">
 				<div>vs AI</div>
 				<img class="downPokemonAI" src="files/img/ai_alakazam.png" height="100px">
 			</div></a>
@@ -64,6 +64,9 @@
 		const setGameMode = (mode) =>{
 			sessionStorage.setItem('gameMode', mode);
 		}
+		const setAiMode = (mode) =>{
+			sessionStorage.setItem('AImode', mode);
+		} 
 	</script>
 </body>
 </html>

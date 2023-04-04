@@ -2,26 +2,55 @@
 const aiTurn = () =>{
 	let firstNr;
 	let secondNr;
+	let matchingPair = findMatchingPair(revealedCards, cardsImages);
+	
 	do{
 		firstNr = Math.floor(Math.random() * 16);
-	}while(usedNumbers.includes(firstNr));
+	}while(hiddenNumbers.includes(firstNr));
 	do {
 		secondNr = Math.floor(Math.random() * 16);
-	  } while (usedNumbers.includes(secondNr) || secondNr === firstNr);
-	//aiValidation(firstNr, secondNr);
+	} while (hiddenNumbers.includes(secondNr) || secondNr === firstNr);
+	console.log(AIMode);
+	if(AIMode === "off"){
+		revealCard(firstNr);
+		revealCard(secondNr);
+		return;
+	}
+	if (matchingPair !== null){
+		console.log("NIE POWINNO MNIE TU BYC")
+		do{
+			firstNr = matchingPair[0];
+		}while(hiddenNumbers.includes(firstNr));
+		do {
+			secondNr = matchingPair[1];
+		} while (hiddenNumbers.includes(secondNr) || secondNr === firstNr);
+	}
 
+	console.log("ukryte indeksy: " + hiddenNumbers);
+	console.log("Odslaniam karty:" + firstNr + " i " + secondNr);
 
 	revealCard(firstNr);
 	revealCard(secondNr);
 }
 
-const aiValidation = (nr1, nr2)=>{
-	
-}
-
-
-
-
+//funkcja znajdujaca pare wsrod odkrytych kart
+function findMatchingPair(indexList, imagesList) {
+	let matchingPair = null;
+  
+	indexList.forEach((index, i) => {
+	  const image = imagesList[index];
+	  const otherIndex = indexList.slice(i + 1).find((otherIndex) => {
+		return imagesList[otherIndex] === image;
+	  });
+  
+	  if (otherIndex !== undefined) {
+		matchingPair = [index, otherIndex];
+		return;
+	  }
+	});
+	console.log("findMatchingPair zwraca: " + matchingPair);
+	return matchingPair;
+  }
 
 
 
@@ -79,6 +108,8 @@ const revealCard = (nr) => {
 			oneVisible = true;
 			visibleNr = nr;
 			lock = false;
+			if(!revealedCards.includes(nr)) revealedCards.push(nr);
+			console.log("odsloniete indeksy: " + revealedCards);
 			return;
 		}
 		//Druga karta w turze
@@ -91,6 +122,8 @@ const revealCard = (nr) => {
 			} 
 			turnCounter++;
 			oneVisible = false;
+			if(!revealedCards.includes(nr)) revealedCards.push(nr);
+			console.log("odsloniete indeksy: " + revealedCards);
 			return;
 		}
 		lock = false;
@@ -115,8 +148,8 @@ const restoreCard = (cardNr) =>{
 }
 //funkcja usuwajaca z planszy pare identycznych kart
 const hide2Cards = (firstCard, secondCard) =>{
-	usedNumbers.push(firstCard);
-	usedNumbers.push(secondCard);
+	hiddenNumbers.push(firstCard);
+	hiddenNumbers.push(secondCard);
 	document.querySelector('#c' + firstCard).style.opacity = '0';
 	document.querySelector('#c' + secondCard).style.opacity = '0';
 	pairsLeft--;
@@ -140,6 +173,14 @@ const hide2Cards = (firstCard, secondCard) =>{
 		}
 	}
 	lock = false;
+	indexFirst = revealedCards.indexOf(firstCard);
+	revealedCards.splice(indexFirst, 1);
+	console.log("usunieto odslonieta karte: " + firstCard + "o indeksie: " + indexFirst);
+
+	indexSecond = revealedCards.indexOf(secondCard);
+	revealedCards.splice(indexSecond, 1);
+	console.log("usunieto odslonieta karte: " + secondCard + "o indeksie: " + indexSecond);
+
 	if (whoseTurn === "ai") setTimeout(()=>aiTurn(),250);
 }
 //funkcja zmieniajaca gracza w turze
@@ -222,11 +263,12 @@ let pairsLeft = 8;			//zmienna: liczba	przechowje liczbe pozostalych na planszy 
 let card;					//zmienna: obiekt	przechowuje element karty (getElementById)
 let opacityValue;			//zmienna: obiekt	przechowuje wartosc css opacity dla danego elementu karty (jesli wartosc wynosi 0, to karta zniknela z planszy)
 let gameMode = "eevee";		//zmienna: string	przechowuje informacje o trybie gry z session storage
-let usedNumbers = [];		//zmienna: tablica	tablica przechowujaca numery kart usunietych z planszy
-
+let hiddenNumbers = [];		//zmienna: tablica	tablica przechowujaca numery kart usunietych z planszy
+let revealedCards = [];		//zmienna: tablica 	zawiera informacje, które karty zostały już odkryte
 
 //main
 gameMode = sessionStorage.getItem('gameMode');
+AIMode = sessionStorage.getItem('AImode');
 
 useModeProperities();
 
