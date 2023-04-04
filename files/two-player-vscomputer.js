@@ -10,14 +10,12 @@ const aiTurn = () =>{
 	do {
 		secondNr = Math.floor(Math.random() * 16);
 	} while (hiddenNumbers.includes(secondNr) || secondNr === firstNr);
-	console.log(AIMode);
 	if(AIMode === "off"){
 		revealCard(firstNr);
 		revealCard(secondNr);
 		return;
 	}
 	if (matchingPair !== null){
-		console.log("NIE POWINNO MNIE TU BYC")
 		do{
 			firstNr = matchingPair[0];
 		}while(hiddenNumbers.includes(firstNr));
@@ -25,9 +23,6 @@ const aiTurn = () =>{
 			secondNr = matchingPair[1];
 		} while (hiddenNumbers.includes(secondNr) || secondNr === firstNr);
 	}
-
-	console.log("ukryte indeksy: " + hiddenNumbers);
-	console.log("Odslaniam karty:" + firstNr + " i " + secondNr);
 
 	revealCard(firstNr);
 	revealCard(secondNr);
@@ -48,11 +43,8 @@ function findMatchingPair(indexList, imagesList) {
 		return;
 	  }
 	});
-	console.log("findMatchingPair zwraca: " + matchingPair);
 	return matchingPair;
   }
-
-
 
 //funkcja generujaca poczatek rozgrywki
 const generateBoard = (player) =>{
@@ -61,14 +53,20 @@ const generateBoard = (player) =>{
 	document.querySelector('.board').innerHTML = '<br/><div class="row"><div class="card" id="c0"></div><div class="card" id="c1"></div><div class="card" id="c2"></div><div class="card" id="c3"></div></div><div class="row"><div class="card" id="c4"></div><div class="card" id="c5"></div><div class="card" id="c6"></div><div class="card" id="c7"></div></div><div class="row"><div class="card" id="c8"></div><div class="card" id="c9"></div><div class="card" id="c10"></div><div class="card" id="c11"></div></div><div class="row"><div class="card" id="c12"></div><div class="card" id="c13"></div><div class="card" id="c14"></div><div class="card" id="c15"></div></div></div><div class="scoreCounter">Turn counter:  '+ turnCounter +'</div>'+ '</div><div class="scoreWhoseTurn">Whose Turn:  '+ whoseTurn +'</div>';
 	registerListeners();
 	let scoreWhoseTurn = document.querySelector('.scoreWhoseTurn');
+	if(AIMode === "on") document.querySelector('.sidePlayerAi').style.backgroundImage = 'url(img/alakazam.png)';
+
 	if(whoseTurn === "ash"){
 		document.querySelector('.sidePlayerAsh').style.filter = 'brightness(100%)';
 		scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/ash_head.png" height="40"/>';
 	}
 	if(whoseTurn === "ai"){
 		document.querySelector('.sidePlayerAi').style.filter = 'brightness(100%)';
-		scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/ai_head.png" height="40"/>';
+		console.log(AIMode);
+		if (AIMode === "on") scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/alakazam_head.png" height="40"/>';
+		else scoreWhoseTurn.innerHTML = 'Turn: ' + '<img src="img/ai_head.png" height="40"/>';
 	}
+
+
 }
 //funkcja rejestrujaca listenery
 const registerListeners = () =>{
@@ -79,7 +77,9 @@ const registerListeners = () =>{
 	});
 
 	document.querySelector('.left').innerHTML = '<div class="sidePlayerAsh"></div><div class="scoreAsh">Ash score: 0</div>';
-	document.querySelector('.right').innerHTML = '<div class="sidePlayerAi"></div><div class="scoreAi">Mewtwo score: 0</div>';
+	if (AIMode === "off") document.querySelector('.right').innerHTML = '<div class="sidePlayerAi"></div><div class="scoreAi">Mewtwo score: 0</div>';
+	else document.querySelector('.right').innerHTML = '<div class="sidePlayerAi"></div><div class="scoreAi">Alakazam score: 0</div>';
+
 }
 //funkcja losujaca uklad kart na planszy
 const shuffle = (array) => {
@@ -109,7 +109,6 @@ const revealCard = (nr) => {
 			visibleNr = nr;
 			lock = false;
 			if(!revealedCards.includes(nr)) revealedCards.push(nr);
-			console.log("odsloniete indeksy: " + revealedCards);
 			return;
 		}
 		//Druga karta w turze
@@ -123,7 +122,6 @@ const revealCard = (nr) => {
 			turnCounter++;
 			oneVisible = false;
 			if(!revealedCards.includes(nr)) revealedCards.push(nr);
-			console.log("odsloniete indeksy: " + revealedCards);
 			return;
 		}
 		lock = false;
@@ -157,29 +155,27 @@ const hide2Cards = (firstCard, secondCard) =>{
 	updateStats();
 	if(pairsLeft === 0){
 		if(ashScore > aiScore) {
-			showResult("vsc_ash_win");
-			ashWin.play();
+			if(AIMode === "on") showResult("alakazam_lose");
+			else showResult("vsc_ash_win");
 			return;
 		}
 		if(ashScore === aiScore) {
-			showResult("vsc_remis");
-			remis.play();
+			if(AIMode === "on") showResult("alakazam_win");
+			else showResult("vsc_remis");
 			return;
 		}
 		if(ashScore < aiScore) {
-			showResult("vsc_mewtwo_win");
-			aiWin.play();
+			if(AIMode === "on") showResult("alakazam_win");
+			else showResult("vsc_mewtwo_win");
 			return;
 		}
 	}
 	lock = false;
 	indexFirst = revealedCards.indexOf(firstCard);
 	revealedCards.splice(indexFirst, 1);
-	console.log("usunieto odslonieta karte: " + firstCard + "o indeksie: " + indexFirst);
 
 	indexSecond = revealedCards.indexOf(secondCard);
 	revealedCards.splice(indexSecond, 1);
-	console.log("usunieto odslonieta karte: " + secondCard + "o indeksie: " + indexSecond);
 
 	if (whoseTurn === "ai") setTimeout(()=>aiTurn(),250);
 }
@@ -211,9 +207,13 @@ const addScore = () =>{
 const updateStats = () =>{
 	document.querySelector('.scoreCounter').innerHTML = 'Turn counter: ' + turnCounter;
 	document.querySelector('.scoreAsh').innerHTML = 'Ash score: ' + ashScore;
-	document.querySelector('.scoreAi').innerHTML = 'Mewtwo score: ' + aiScore;
+	if (AIMode === "on") document.querySelector('.scoreAi').innerHTML = 'Alakazam score: ' + aiScore;
+	else document.querySelector('.scoreAi').innerHTML = 'Mewtwo score: ' + aiScore;
 	if(whoseTurn === "ash") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/ash_head.png" height="40"/>';
-	if(whoseTurn === "ai") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/ai_head.png" height="40"/>';
+	if(whoseTurn === "ai"){ 
+		if (AIMode === "on") document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/alakazam_head.png" height="40"/>';
+		else document.querySelector('.scoreWhoseTurn').innerHTML = 'Turn: ' + '<img src="img/ai_head.png" height="40"/>';
+	}
 }
 //wywolanie zakonczenia gry
 const showResult = (winner) =>{
@@ -231,6 +231,14 @@ const showResult = (winner) =>{
 		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>Mewtwo win!<br/>Done in ' + turnCounter + ' turns!';
 		return;
 	} 
+	if (winner === "alakazam_win") { 
+		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>You are too weak to defeat me!<br/>Done in ' + turnCounter + ' turns!'; 
+		return;
+	}
+	if (winner === "alakazam_lose"){
+		document.querySelector('.board').innerHTML = '<img src="img/' + winner + '.gif"/><h1>How is this possible?<br/>Done in ' + turnCounter + ' turns!';
+		return;
+	} 
 }
 //ustawienie widoku w zaleznosci od trybu gry
 const useModeProperities = () =>{
@@ -245,6 +253,18 @@ const useModeProperities = () =>{
 		document.body.style.color = '#fdc100';
 		cardsImages = ["1b.png", "1b.png", "2b.png", "2b.png", "3b.png", "3b.png", "4b.png", "4b.png", "5b.png", "5b.png", "6b.png", "6b.png", "7b.png", "7b.png", "8b.png", "8b.png"];
 		document.getElementById('nameGame').innerHTML = 'BATTLE MEMORY GAME';
+	}
+	if(AIMode === "on") {
+		let playerChoiceRight = document.getElementById("ai");
+		playerChoiceRight.style.backgroundImage = 'url(img/alakazam.png)';
+
+		playerChoiceRight.addEventListener("mouseover", function() {
+			this.style.backgroundImage = 'url(img/alakazam_b.png)';
+		  });
+		
+		  playerChoiceRight.addEventListener("mouseout", function() {
+			this.style.backgroundImage = 'url(img/alakazam.png)';
+		  });
 	}
 }
 // mp3
@@ -263,6 +283,7 @@ let pairsLeft = 8;			//zmienna: liczba	przechowje liczbe pozostalych na planszy 
 let card;					//zmienna: obiekt	przechowuje element karty (getElementById)
 let opacityValue;			//zmienna: obiekt	przechowuje wartosc css opacity dla danego elementu karty (jesli wartosc wynosi 0, to karta zniknela z planszy)
 let gameMode = "eevee";		//zmienna: string	przechowuje informacje o trybie gry z session storage
+let AIMode = "on"			//zmienna: string	przechowuje informacje o aktywowaniu opcji inteligentnego przeciwnika z session storage
 let hiddenNumbers = [];		//zmienna: tablica	tablica przechowujaca numery kart usunietych z planszy
 let revealedCards = [];		//zmienna: tablica 	zawiera informacje, które karty zostały już odkryte
 
